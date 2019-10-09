@@ -1,0 +1,29 @@
+{
+  "name": "jeli",
+  "version": "1.0.0",
+  "description": "Jeli App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrjabar/jeli.git"
+  },
+  "keywords": [
+    "Jeli",
+    "App",
+    "MEAN",
+    "Stack"
+  ],
+  "author": "Ade Jabar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrjabar/jeli/issues"
+  },
+  "homepage": "https://github.com/mrjabar/jeli#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.3"
+  }
+}
