@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-md mb-4">
+  <a class="navbar-brand" routerLink="/">
+    <img class="header-logo" src="assets/images/Jeli_logo.jpg" />
+  </a>
+  <li class="nav-item ">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarCollapse"
+      aria-controls="navbarCollapse"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span><i class="fas fa-bars"></i></span>
+    </button>
+  </li>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto hidden-sm-down">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active"
+          >Admin</a
+        >
+      </li>
+
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/courses" routerLinkActive="active"
+          >Courses</a
+        >
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink="/courses" routerLinkActive="active"
+            >Blogs</a
+          >
+        </li>
+
+      <!-- <li class="nav-item" *ngIf="userIsAuthenticated">
+                  <a class="nav-link" routerLink="/blog" routerLinkActive="active"
+                    >Discussion</a
+                  >
+                </li> -->
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/contact-us" routerLinkActive="active"
+          >Contact Us</a
+        >
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" routerLink="/aboutus" routerLinkActive="active"
+          >About Us</a
+        >
+      </li>
+    </ul>
+    <ul class="navbar-nav pull-xs-right">
+      <li class="nav-item" style="padding: 0 20px; font-size: 1.2em">
+        <a class="nav-link p-2" routerLink="/cart" style="color: #fff">
+          <!-- <span>
+                        <i class="fas fa-shopping-cart"></i>
+
+                        <mat-icon *ngIf="cart.length" matBadge="{{ cart.length }}" matBadgeColor="warn">
+                        </mat-icon>
+
+                    </span> -->
+          <!-- <span
+                      class="badge badge-pill badge-danger"
+                      style="margin-left: 8px"
+                      *ngIf="cart.length"
+                      >{{ cart.length }}
+                    </span> -->
+        </a>
+      </li>
+      <!-- <li ngbDropdown class="nav-item dropdown">
+                    <a ngbDropdownToggle *ngIf="userIsAuthenticated" class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</a>
+                    <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+                      <a class="dropdown-item" routerLink="/user/profile">My Profile</a>
+                      <a class="dropdown-item" routerLink="/my/orders">My Orders</a>
+                      <a *ngIf="userIsAuthenticated && userIsAuthenticated === isAdmin" class="dropdown-item" routerLink="/admin/courses/new">Manage Courses</a>
+                      <a *ngIf="userIsAuthenticated && userIsAuthenticated === isAdmin" class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
+                      <a *ngIf="userIsAuthenticated && userIsAuthenticated === isAdmin" class="dropdown-item" routerLink="/admin/user">Manage Users</a> -->
+      <!-- <a type="button" class="btn btn-outline-light" (click)="onLogout()">Logout</a> -->
+      <!-- </div>
+                  </li> -->
+    <li class="dropdown">
+        <button class="dropbtn">Profile</button>
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </li>
+      <!-- <li>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active" >Profile</a>
+        </li> -->
+
+      <li class="hidden-sm-down" *ngIf="!userIsAuthenticated">
+        <a class="nav-link header-login" routerLink="/login">Login</a>
+      </li>
+      <li class="hidden-sm-down" *ngIf="!userIsAuthenticated">
+        <a class="nav-link header-login" routerLink="/register">Register</a>
+      </li>
+      <!-- <li class="hidden-sm-down" *ngIf="userIsAuthenticated">
+                    <button type="button" class="btn btn-outline-light" (click)="onLogout()">
+                      Logout
+                    </button>
+                  </li> -->
+    </ul>
+
+    <!-- <li *ngIf="!userIsAuthenticated">
+                <a class="nav-link header-login" routerLink="/login">Login | Register</a>
+              </li>
+              <li *ngIf="userIsAuthenticated">
+                <button type="button" class="btn btn-outline-light" (click)="onLogout()">
+                  Logout
+                </button>
+              </li> -->
+    <!-- <li *ngIf="!userIsAuthenticated">
+                <a class="nav-link header-login" routerLink="/login">Login | Register</a>
+              </li>
+              <li *ngIf="userIsAuthenticated">
+                <button type="button" class="btn btn-outline-light" (click)="onLogout()">
+                  Logout
+                </button>
+              </li> -->
+  </div>
+</nav>
