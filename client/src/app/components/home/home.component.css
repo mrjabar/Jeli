@@ -12,6 +12,12 @@
 
 }
 
+.container-button {
+  text-align: center;
+  margin-top: -10rem;
+  color: white;
+  z-index: 10;
+}
 .text-box {
   color: #fff;
 }

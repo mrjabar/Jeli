@@ -2,6 +2,40 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
+// Full Name Validator
+const fullNameLengthChecker = (fullName) => {
+    if (!fullName) {
+        return false;
+    } else {
+        if (fullName.length < 3 || fullName.length > 20) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+};
+
+const validFullName = (fullName) => {
+    if (!fullName) {
+        return false;
+    } else {
+        const regExp = new RegExp(/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/);
+        return regExp.test(fullName);
+    }
+};
+
+const fullNameValidators = [
+    {
+        validator: fullNameLengthChecker,
+        message: 'Your name must be at least 3 characters, but no more than 20'
+    },
+    {
+        validator: validFullName,
+        message: 'Your name must not have any special characters or numbers'
+    }
+];
+
+// Email Validator
 const emailLengthChecker = (email) => {
     if (!email) {
         return false;
@@ -34,6 +68,7 @@ const emailValidators = [
     }
 ];
 
+// Username Validator
 const usernameLengthChecker = (username) => {
     if (!username) {
         return false;
@@ -66,6 +101,7 @@ const usernameValidators = [
     }
 ];
 
+// Password Validator
 const passwordLengthChecker = (password) => {
     if (!password) {
         return false;
@@ -98,8 +134,8 @@ const passwordValidators = [
     }
 ];
 
-
 const userSchema = new Schema({
+    fullName: { type: String, required: true, validate: fullNameValidators },
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators },
     password: { type: String, required: true, validate: passwordValidators },
