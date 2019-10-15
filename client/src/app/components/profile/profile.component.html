@@ -1,0 +1,5 @@
+<h2 class="page-header">{{ user?.fullName}}</h2>
+<ul class="list-group" *ngIf="user">
+  <li class="list-group-item">Username: {{ user.username}}</li>
+  <li class="list-group-item">Email: {{ user.email}}</li>
+</ul>

@@ -18,7 +18,7 @@
 
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto hidden-sm-down">
-      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+      <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" routerLink="/dashboard" routerLinkActive="active"
           >Admin</a
         >
@@ -29,8 +29,8 @@
           >Courses</a
         >
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" routerLink="/courses" routerLinkActive="active"
+      <li *ngIf="authService.loggedIn()"class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink="/blogs" routerLinkActive="active"
             >Blogs</a
           >
         </li>
@@ -80,29 +80,34 @@
       <!-- <a type="button" class="btn btn-outline-light" (click)="onLogout()">Logout</a> -->
       <!-- </div>
                   </li> -->
-    <li class="dropdown">
-        <button class="dropbtn">Profile</button>
+    <li class="dropdown" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" *ngIf="authService.loggedIn()">
+        <button routerLink="/profile" routerLinkActive="active" class="dropbtn">Profile</button>
         <div class="dropdown-content">
           <a href="#">Link 1</a>
           <a href="#">Link 2</a>
           <a href="#">Link 3</a>
+
         </div>
       </li>
       <!-- <li>
           <a class="nav-link" routerLink="/profile" routerLinkActive="active" >Profile</a>
         </li> -->
 
-      <li class="hidden-sm-down" *ngIf="!userIsAuthenticated">
+      <li class="hidden-sm-down" *ngIf="!authService.loggedIn()">
         <a class="nav-link header-login" routerLink="/login">Login</a>
       </li>
-      <li class="hidden-sm-down" *ngIf="!userIsAuthenticated">
+      <li class="hidden-sm-down" *ngIf="!authService.loggedIn()">
         <a class="nav-link header-login" routerLink="/register">Register</a>
       </li>
-      <!-- <li class="hidden-sm-down" *ngIf="userIsAuthenticated">
-                    <button type="button" class="btn btn-outline-light" (click)="onLogout()">
-                      Logout
-                    </button>
-                  </li> -->
+      <li class="hidden-sm-down" *ngIf="authService.loggedIn()">
+        <a class="nav-link header-login" (click)="onLogoutClick()">Logout</a>
+      </li>
+
+      <!-- <li >
+        <a type="button" class="btn btn-outline-light" (click)="onLogout()">
+          Logout
+        </a>
+      </li> -->
     </ul>
 
     <!-- <li *ngIf="!userIsAuthenticated">

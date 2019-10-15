@@ -1,0 +1,43 @@
+<div class="card">
+  <h5 class="card-header">Login</h5>
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
+  </div>
+  <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onLoginSubmit()">
+              <div class="form-group">
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    formControlName="username"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': form.controls.username.dirty && form.controls.username.errors, 'is-valid':
+                    form.controls.username.valid && !form.controls.username.errors}" />
+                  <div *ngIf="form.controls.username.dirty && form.controls.username.errors" class="invalid-feedback">
+                      <div *ngIf="form.controls.username.errors.required">Username is required</div>
+                      <div *ngIf="usernameMessage">{{ usernameMessage}}</div>
+
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    formControlName="password"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': form.controls.password.dirty && form.controls.password.errors, 'is-valid':
+                    form.controls.password.valid && !form.controls.password.errors }" />
+                  <div *ngIf="form.controls.password.dirty && form.controls.password.errors" class="invalid-feedback">
+                      <div *ngIf="form.controls.password.errors.required">Password is required</div>
+                      <div *ngIf="form.controls.password.errors.minLength && form.controls.password.dirty">Password must be at least 6 characters</div>
+                  </div>
+              </div>
+          <div class="text-center">
+              <button [disabled]="!form.valid || processing" class="btn btn-primary mr-1">Login</button>
+              <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+          </div>
+      </form>
+  </div>
+</div>
