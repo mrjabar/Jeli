@@ -59,27 +59,25 @@
 </form>
 
 <div *ngIf="!newPost">
-  <div class="card border-secondary">
-    <div class="card-header">Post Title</div>
+  <div class="card border-secondary" *ngFor="let blog of blogPosts">
+    <div class="card-header">{{ blog.title }}</div>
     <div class="card-body">
-      <h4>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </h4>
+      <h4>{{ blog.body }}</h4>
     </div>
     <!-- Footer start -->
     <div class="card-footer">
-      <p><strong>Posted By: </strong>Jaba Binks</p>
-      <p><strong>Date: </strong>Jan 20, 2020</p>
-      <a href="">
-        <button type="button" class="btn btn-info">Edit</button>
+      <p><strong>Posted By: </strong>{{ blog.createdBy }}</p>
+      <p><strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}</p>
+      <a [routerLink]="['/edit-blog/', blog._id ]">
+        <button type="button" class="btn btn-info" *ngIf="username === blog.createdBy">Edit</button>
       </a>
-      <a href="">
+      <a [routerLink]="['/delete-blog/', blog._id ]" *ngIf="username === blog.createdBy">
         <button type="button" class="btn btn-danger">Delete</button>
       </a>
       <!-- Likes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-success">
-          <span><i class="far fa-thumbs-up"></i>&nbsp;</span> Likes: 21
+        <button type="button" name="button" class="btn btn-success" *ngIf="username !== blog.createdBy">
+          <span><i class="far fa-thumbs-up"></i>&nbsp;</span> Likes: {{ blog.likes}}
         </button>
         <div class="dropdown-content">
             <a href="#">Jaba.binks</a>
@@ -89,8 +87,8 @@
       </div>
       <!-- Dislikes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-warning">
-          <span><i class="far fa-thumbs-down"></i>&nbsp;</span> Dislikes: 2
+        <button type="button" name="button" class="btn btn-warning" *ngIf="username !== blog.createdBy">
+          <span><i class="far fa-thumbs-down"></i>&nbsp;</span> Dislikes: {{ blog.dislikes }}
         </button>
         <div class="dropdown-content">
           <a href="#">Toro Rosso</a>
