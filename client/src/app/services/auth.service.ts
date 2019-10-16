@@ -7,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  domain = 'http://localhost:8080';
+  domain = 'http://localhost:8080/';
   authToken;
   user;
   options;
@@ -32,22 +32,22 @@ export class AuthService {
   }
 
   registerUser(user) {
-    return this.http.post(this.domain + '/authentication/register', user)
+    return this.http.post(this.domain + 'authentication/register', user)
       .pipe(map(res => res));
   }
 
   checkEmail(email) {
-    return this.http.get(this.domain + '/authentication/checkEmail/' + email)
+    return this.http.get(this.domain + 'authentication/checkEmail/' + email)
       .pipe(map(res => res));
   }
 
   checkUsername(username) {
-    return this.http.get(this.domain + '/authentication/checkUsername/' + username)
+    return this.http.get(this.domain + 'authentication/checkUsername/' + username)
       .pipe(map(res => res));
   }
 
   login(user) {
-    return this.http.post(this.domain + '/authentication/login', user)
+    return this.http.post(this.domain + 'authentication/login', user)
       .pipe(map(res => res));
   }
 
@@ -76,13 +76,13 @@ export class AuthService {
       'Content-Type': 'application/json',
       Authorization: this.authToken
     });
-    return this.http.get(this.domain + '/authentication/profile', {
+    return this.http.get(this.domain + 'authentication/profile', {
       headers
     });
   }
 
   loggedIn() {
-    if (localStorage.token == undefined ) {
+    if (localStorage.token === undefined ) {
      return false;
     } else {
     const helper = new JwtHelperService();

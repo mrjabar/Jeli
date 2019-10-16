@@ -1,0 +1,116 @@
+<h1 class="page-header">Discussion Feed</h1>
+<div class="row show-hide-message" *ngIf="message && newPost">
+  <div [ngClass]="messageClass">{{ message }}</div>
+</div>
+
+<button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-secondary" *ngIf="!newPost" (click)="reloadBlogs()"><span class="fas fa-sync"></span>&nbsp;&nbsp;Reload</button>
+<br>
+<br>
+
+<!-- New Blog -->
+<form [formGroup]="form" (ngSubmit)="onBlogSubmit()" *ngIf="newPost">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div class="form-group">
+      <input
+        type="text"
+        name="title"
+        class="form-control"
+        placeholder="*Post Title"
+        autocomplete="off"
+        formControlName="title"
+        [ngClass]="{ 'is-invalid': form.controls.title.dirty && form.controls.title.errors, 'is-valid':
+        form.controls.title.valid && !form.controls.title.errors}"
+      >
+      <div *ngIf="form.controls.title.dirty && form.controls.title.errors" class="invalid-feedback">
+          <div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">Post title is required</div>
+          <div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max Length: 50, Min Length: 5</div>
+          <div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Must be a letter or a number</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="form-group">
+      <label for="title">Body</label>
+      <div class="form-group">
+        <textarea
+          name="body"
+          class="form-control"
+          placeholder="*Post Comment"
+          cols="30"
+          rows="10"
+          formControlName="body"
+          [ngClass]="{ 'is-invalid': form.controls.body.dirty && form.controls.body.errors, 'is-valid':
+          form.controls.body.valid && !form.controls.body.errors}"
+
+        ></textarea>
+        <div *ngIf="form.controls.body.dirty && form.controls.body.errors" class="invalid-feedback">
+            <div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">Post body is required</div>
+            <div *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) ||
+            (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max Length: 5, Min Length: 500</div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button [disabled]=" processing" class="btn btn-warning" type="reset" (click)="goBack()">Go Back</button>
+      <button type="submit" name="button" [disabled]="!form.valid || processing" class="btn btn-success mr-1">Submit</button>
+    </div>
+</form>
+
+<div *ngIf="!newPost">
+  <div class="card border-secondary">
+    <div class="card-header">Post Title</div>
+    <div class="card-body">
+      <h4>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </h4>
+    </div>
+    <!-- Footer start -->
+    <div class="card-footer">
+      <p><strong>Posted By: </strong>Jaba Binks</p>
+      <p><strong>Date: </strong>Jan 20, 2020</p>
+      <a href="">
+        <button type="button" class="btn btn-info">Edit</button>
+      </a>
+      <a href="">
+        <button type="button" class="btn btn-danger">Delete</button>
+      </a>
+      <!-- Likes dropdown -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-success">
+          <span><i class="far fa-thumbs-up"></i>&nbsp;</span> Likes: 21
+        </button>
+        <div class="dropdown-content">
+            <a href="#">Jaba.binks</a>
+            <a href="#">Jabs</a>
+            <a href="#">Jesse</a>
+          </div>
+      </div>
+      <!-- Dislikes dropdown -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-warning">
+          <span><i class="far fa-thumbs-down"></i>&nbsp;</span> Dislikes: 2
+        </button>
+        <div class="dropdown-content">
+          <a href="#">Toro Rosso</a>
+          <a href="#">Jabs</a>
+          <a href="#">Jesse</a>
+        </div>
+      </div>
+    </div>
+    <!-- Footer end -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button type="button" name="button" class="btn btn-sm btn-danger"
+          (click)="draftComment()" >Post comment</button>
+          <br>
+          <!-- <form>
+            <textarea name="comment" class="form.control" id="" cols="30" rows="10"></textarea>
+            <button class="btn btn-sm btn-info">Submit Post</button>
+            <button class="btn btn-sm btn-danger">Cancel</button>
+          </form> -->
+      </li>
+    </ul>
+  </div>
+</div>

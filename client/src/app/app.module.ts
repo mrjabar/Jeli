@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 // import { NgFlashMessagesModule } from 'ng-flash-messages';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { BlogComponent } from './components/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     DashboardComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,
