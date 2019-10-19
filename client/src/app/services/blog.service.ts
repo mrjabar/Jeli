@@ -43,7 +43,37 @@ export class BlogService {
     this.createAuthenticationHeaders();
     return this.http.get(this.domain + 'blogs/allBlogs', this.options)
     .pipe(map(res => res));
+  }
 
+  getBlog(id) {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'blogs/blog/' + id, this.options)
+    .pipe(map(res => res));
+  }
+
+  editBlog(blog) {
+    this.createAuthenticationHeaders();
+    return this.http.put(this.domain + 'blogs/updateBlog/', blog, this.options)
+    .pipe(map(res => res));
+  }
+
+  deleteBlog(id) {
+    this.createAuthenticationHeaders();
+    return this.http.delete(this.domain + 'blogs/deleteBlog/' + id, this.options)
+    .pipe(map(res => res));
+  }
+
+  likeBlog(id) {
+    const blogData = { id };
+    return this.http.put(this.domain + 'blogs/likeBlog/', blogData, this.options)
+    .pipe(map(res => res));
+
+  }
+
+  dislikeBlog(id) {
+    const blogData = { id };
+    return this.http.put(this.domain + 'blogs/dislikeBlog/', blogData, this.options)
+    .pipe(map(res => res));
 
   }
 

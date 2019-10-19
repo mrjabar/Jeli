@@ -66,41 +66,46 @@
     </div>
     <!-- Footer start -->
     <div class="card-footer">
-      <p><strong>Posted By: </strong>{{ blog.createdBy }}</p>
-      <p><strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}</p>
-      <a [routerLink]="['/edit-blog/', blog._id ]">
-        <button type="button" class="btn btn-info" *ngIf="username === blog.createdBy">Edit</button>
-      </a>
-      <a [routerLink]="['/delete-blog/', blog._id ]" *ngIf="username === blog.createdBy">
-        <button type="button" class="btn btn-danger">Delete</button>
-      </a>
+      <strong>Posted By: </strong>{{ blog.createdBy }}
+      <br>
+      <strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}
+      <br>
+      <div>
+        <strong>Likes: </strong>{{ blog.likes }}
+        <br>
+        <strong>Dislikes: </strong>{{ blog.dislikes }}
+        <br>
+      </div>
+      <!-- <a [routerLink]="['/edit-blog/', blog._id ]">
+        <button type="button" class="btn btn-info" >Edit</button>
+      </a> -->
       <!-- Likes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-success" *ngIf="username !== blog.createdBy">
+        <button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-success" *ngIf="username !== blog.createdBy" (click)="likeBlog(blog._id)">
           <span><i class="far fa-thumbs-up"></i>&nbsp;</span> Likes: {{ blog.likes}}
         </button>
         <div class="dropdown-content">
-            <a href="#">Jaba.binks</a>
-            <a href="#">Jabs</a>
-            <a href="#">Jesse</a>
+            <a [routerLink]="['/user/', liker]" *ngFor="let liker of blog.likedBy">{{ liker}}</a>
           </div>
       </div>
       <!-- Dislikes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-warning" *ngIf="username !== blog.createdBy">
+        <button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-warning" *ngIf="username !== blog.createdBy" (click)="dislikeBlog(blog._id)">
           <span><i class="far fa-thumbs-down"></i>&nbsp;</span> Dislikes: {{ blog.dislikes }}
         </button>
         <div class="dropdown-content">
-          <a href="#">Toro Rosso</a>
-          <a href="#">Jabs</a>
-          <a href="#">Jesse</a>
+          <a [routerLink]="['/user/', disliker]" *ngFor="let disliker of blog.dislikedBy">{{ disliker }}</a>
         </div>
+        <a [routerLink]="['/delete-blog/', blog._id ]">
+          <button type="button" class="btn btn-danger">Delete</button>
+        </a>
+
       </div>
     </div>
     <!-- Footer end -->
     <ul class="list-group">
       <li class="list-group-item">
-        <button type="button" name="button" class="btn btn-sm btn-danger"
+        <button type="button" name="button" class="btn btn-sm btn-info"
           (click)="draftComment()" >Post comment</button>
           <br>
           <!-- <form>

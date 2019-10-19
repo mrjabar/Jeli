@@ -130,6 +130,19 @@ export class BlogComponent implements OnInit {
   //   });
   // }
 
+  likeBlog(id) {
+    this.blogService.likeBlog(id).subscribe(data => {
+      this.getAllBlogs();
+    });
+  }
+
+  dislikeBlog(id) {
+    this.blogService.dislikeBlog(id).subscribe(data => {
+      this.getAllBlogs();
+    });
+
+  }
+
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {

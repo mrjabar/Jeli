@@ -78,7 +78,16 @@ export class AuthService {
     });
     return this.http.get(this.domain + 'authentication/profile', {
       headers
+    }).pipe(map(res => res));
+  }
+
+  getPublicProfile(username) {
+    this.loadToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: this.authToken
     });
+    return this.http.get(this.domain + 'authentication/publicProfile/' + username, { headers }).pipe(map(res => res));
   }
 
   loggedIn() {
