@@ -38,7 +38,7 @@
           name="body"
           class="form-control"
           placeholder="*Post Comment"
-          cols="30"
+          cols="80"
           rows="10"
           formControlName="body"
           [ngClass]="{ 'is-invalid': form.controls.body.dirty && form.controls.body.errors, 'is-valid':
@@ -68,12 +68,12 @@
     <div class="card-footer">
       <strong>Posted By: </strong>{{ blog.createdBy }}
       <br>
-      <strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}
+      <strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}<br>
       <br>
       <div>
-        <strong>Likes: </strong>{{ blog.likes }}
+          <i class="far fa-thumbs-up"></i>&nbsp;<strong>: </strong>{{ blog.likes }}
         <br>
-        <strong>Dislikes: </strong>{{ blog.dislikes }}
+        <i class="far fa-thumbs-down"></i>&nbsp;<strong>: </strong>{{ blog.dislikes }}<br>
         <br>
       </div>
       <!-- <a [routerLink]="['/edit-blog/', blog._id ]">
@@ -106,14 +106,48 @@
     <ul class="list-group">
       <li class="list-group-item">
         <button type="button" name="button" class="btn btn-sm btn-info"
-          (click)="draftComment()" >Post comment</button>
+          (click)="draftComment(blog._id)" [disabled]="newComment.indexOf(blog._id) > -1" >Post comment</button>
           <br>
-          <!-- <form>
-            <textarea name="comment" class="form.control" id="" cols="30" rows="10"></textarea>
-            <button class="btn btn-sm btn-info">Submit Post</button>
-            <button class="btn btn-sm btn-danger">Cancel</button>
-          </form> -->
+          <br>
+          <div *ngIf="newComment.indexOf(blog._id) > -1">
+            <form [formGroup]="commentForm">
+              <textarea
+                name="comment"
+                class="form-control"
+                id=""
+                cols="30"
+                rows="10"
+                formControlName="comment"
+                [ngClass]="{ 'is-invalid': commentForm.controls.comment.dirty && commentForm.controls.comment.errors, 'is-valid':
+                commentForm.controls.comment.valid && !commentForm.controls.comment.errors}"
+              ></textarea><br>
+                <div *ngIf="commentForm.controls.comment.dirty && commentForm.controls.comment.errors" class="invalid-feedback">
+                  <div *ngIf="commentForm.controls.comment.errors.required">This field required</div>
+                  <div *ngIf="(commentForm.controls.comment.errors.minlength && commentForm.controls.comment.dirty) ||
+                  (commentForm.controls.comment.errors.maxlength && commentForm.controls.comment.dirty)">Comments must be at least 1 character, but not exceeding 200.</div><br>
+                </div>
+              <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment(blog._id)">Submit Comment</button>
+              <button [disabled]="processing" class="btn btn-sm btn-danger" (click)="cancelSubmit(blog._id)">Cancel</button>
+            </form>
+          </div>
       </li>
+      <li *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comment?.Length > 0" class="list-group-item">
+          <span (click)="expand(blog._id)">
+            Show comments&nbsp;&nbsp;
+            <div><i class="far fa-comments"></i></div>
+          </span>
+        </li>
+        <li *ngIf="enabledComments.indexOf(blog._id) > -1" class="list-group-item">
+            <span (click)="collapse(blog._id)">
+              Hide comments&nbsp;&nbsp;
+              <div><i class="fas fa-comment-alt"></i></div>
+            </span>
+          </li>
+          <div *ngIf="enabledComments.indexOf(blog._id) > -1" >
+            <li *ngFor="let comment of blog.comments" class="list-group-item">
+              <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
+            </li>
+          </div>
     </ul>
   </div>
 </div>

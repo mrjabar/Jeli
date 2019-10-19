@@ -36,7 +36,6 @@ export class BlogService {
     this.createAuthenticationHeaders();
     return this.http.post(this.domain + 'blogs/newBlog', blog, this.options)
       .pipe(map(res => res));
-
   }
 
   getAllBlogs() {
@@ -77,5 +76,11 @@ export class BlogService {
 
   }
 
+  postComment(id, comment) {
+    this.createAuthenticationHeaders();
+    const blogData = { id, comment };
+    return this.http.post(this.domain + 'blogs/comment', blogData, this.options)
+    .pipe(map(res => res));
+  }
 }
 

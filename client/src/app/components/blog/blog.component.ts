@@ -13,12 +13,15 @@ export class BlogComponent implements OnInit {
   newPost = false;
   loadingBlogs = false;
   form;
+  commentForm;
   processing = false;
   user;
   username;
   email;
   dataRegister: any = {};
   blogPosts;
+  newComment = [];
+  enabledComments = [];
 
 
   constructor(
@@ -28,6 +31,8 @@ export class BlogComponent implements OnInit {
 
   ) {
     this.createNewBlogForm();
+    this.createCommentForm();
+
   }
 
   createNewBlogForm() {
@@ -56,6 +61,27 @@ export class BlogComponent implements OnInit {
     this.form.controls.body.disable();
   }
 
+
+  createCommentForm() {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.minLength(1),
+        this.alphaNumericValidation
+      ])]
+    });
+
+  }
+
+  enableNewCommentForm() {
+    this.commentForm.controls.comment.enable();
+  }
+
+  disableNewCommentForm() {
+    this.commentForm.controls.comment.disable();
+  }
+
   alphaNumericValidation(controls) {
     const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
     if (regExp.test(controls.value)) {
@@ -77,10 +103,19 @@ export class BlogComponent implements OnInit {
     }, 4000);
   }
 
-  draftComment() {
-
+  draftComment(id) {
+    this.commentForm.reset();
+    this.newComment = [];
+    this.newComment.push(id);
   }
 
+  cancelSubmit(id) {
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+    this.commentForm.reset();
+    this.enableNewCommentForm();
+    this.processing = false;
+  }
   onBlogSubmit() {
     this.processing = true;
     this.disableNewPostForm();
@@ -140,7 +175,30 @@ export class BlogComponent implements OnInit {
     this.blogService.dislikeBlog(id).subscribe(data => {
       this.getAllBlogs();
     });
+  }
 
+  postComment(id) {
+    this.disableNewCommentForm();
+    this.processing = true;
+    const comment = this.commentForm.get('comment').value;
+    this.blogService.postComment(id, comment).subscribe(data => {
+      this.dataRegister = data;
+      this.getAllBlogs();
+      const index = this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableNewCommentForm();
+      this.commentForm.reset();
+      if (this.enabledComments.indexOf(id) < 0) { this.expand(id); }
+    });
+  }
+
+  expand(id) {
+    this.enabledComments.push(id);
+  }
+
+  collapse(id) {
+    const index = this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
   }
 
 
