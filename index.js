@@ -9,6 +9,7 @@ const blogs = require('./routes/blogs')(router);
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const port  = process.env.PORT || 8080
 
 mongoose
   .connect(
@@ -36,6 +37,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/dist/client/index.html'));
 })
 
-app.listen(8080, () => {
-    console.log('Listening on port 8080');
+app.listen(port, () => {
+    console.log('Listening on port ' + port);
 })

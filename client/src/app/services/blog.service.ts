@@ -77,5 +77,14 @@ export class BlogService {
 
   }
 
+  postComment(id, comment) {
+    this.createAuthenticationHeaders();
+    const blogData = {
+      id, comment
+    };
+    return this.http.post(this.domain + 'blogs/comment/', blogData, this.options)
+    .pipe(map(res => res));
+  }
+
 }
 

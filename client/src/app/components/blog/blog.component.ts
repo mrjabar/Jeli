@@ -13,12 +13,15 @@ export class BlogComponent implements OnInit {
   newPost = false;
   loadingBlogs = false;
   form;
+  commentForm;
   processing = false;
   user;
   username;
   email;
   dataRegister: any = {};
   blogPosts;
+  newComment = [];
+  enabledComments = [];
 
 
   constructor(
@@ -28,6 +31,7 @@ export class BlogComponent implements OnInit {
 
   ) {
     this.createNewBlogForm();
+    this.createCommentForm();
   }
 
   createNewBlogForm() {
@@ -46,6 +50,18 @@ export class BlogComponent implements OnInit {
     });
   }
 
+  createCommentForm() {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.minLength(1),
+        this.alphaNumericValidation
+      ])]
+    });
+  }
+
+
   enableNewPostForm() {
     this.form.controls.title.enable();
     this.form.controls.body.enable();
@@ -54,6 +70,14 @@ export class BlogComponent implements OnInit {
   disableNewPostForm() {
     this.form.controls.title.disable();
     this.form.controls.body.disable();
+  }
+
+  enableCommentForm() {
+    this.commentForm.controls.comment.enable();
+  }
+
+  disableCommentForm() {
+    this.commentForm.controls.comment.disable();
   }
 
   alphaNumericValidation(controls) {
@@ -77,8 +101,18 @@ export class BlogComponent implements OnInit {
     }, 4000);
   }
 
-  draftComment() {
+  draftComment(id) {
+    this.commentForm.reset();
+    this.newComment = [];
+    this.newComment.push(id);
+  }
 
+  cancelSubmit(id) {
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+    this.commentForm.reset();
+    this.enableCommentForm();
+    this.processing = false;
   }
 
   onBlogSubmit() {
@@ -141,6 +175,30 @@ export class BlogComponent implements OnInit {
       this.getAllBlogs();
     });
 
+  }
+
+  postComment(id) {
+    this.disableCommentForm();
+    this.processing = true;
+    const comment  = this.commentForm.get('comment').value;
+    this.blogService.postComment(id, comment).subscribe(data => {
+      this.getAllBlogs();
+      const index = this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableCommentForm();
+      this.commentForm.reset();
+      this.processing = false;
+      if (this.enabledComments.indexOf(id) < 0) { this.expand(id); }
+    });
+  }
+
+  expand(id) {
+    this.enabledComments.push(id);
+  }
+
+  collapse(id) {
+    const index = this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
   }
 
 
